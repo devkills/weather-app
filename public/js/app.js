@@ -13,7 +13,7 @@ weatherForm.addEventListener('submit', (event) => {
     latitude.textContent = ''
     longitude.textContent = ''
 
-    fetch(`http://localhost:9456/weather?address=${location}`).then((response) => { // allows to fetch data from a url
+    fetch(`/weather?address=${location}`).then((response) => { // allows to fetch data from a url
     response.json().then((data) => {
         if (!data.error) {
             message.textContent = 'location: ' + data.location

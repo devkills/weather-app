@@ -4,14 +4,15 @@ const hbs = require('hbs')
 const geocode = require('./geocode')
 
 const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views') // example for a path of a directory to replace the views directory
+const partialPath = path.join(__dirname, '../templates/partials')
 
 console.log(__dirname) // path of the directory containing the current file
 console.log(__filename) // path of the current file
 console.log(publicDirectoryPath)
 
 const app = express() // calling the express function to build an express object
-const viewsPath = path.join(__dirname, '../templates/views') // example for a path of a directory to replace the views directory
-const partialPath = path.join(__dirname, '../templates/partials')
+const port = process.env.PORT || 9456
 
 app.set('view engine', 'hbs')
 app.set('views', viewsPath) // change the path of the directory of the views to render
@@ -93,6 +94,6 @@ app.get('*', (req, res) => { // * - wild card character matches every url reques
     })
 })
 
-app.listen(9456, () => {
-    console.log('Server listening on port 9456...')
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}...`)
 })
