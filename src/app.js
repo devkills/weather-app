@@ -2,14 +2,15 @@ const express = require('express') // module to create a web server
 const path = require('path') // module to MANIPULATE paths in projects
 const hbs = require('hbs')
 const geocode = require('./geocode')
+const forecast = require('./forecast')
 
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views') // example for a path of a directory to replace the views directory
 const partialPath = path.join(__dirname, '../templates/partials')
 
-console.log(__dirname) // path of the directory containing the current file
-console.log(__filename) // path of the current file
-console.log(publicDirectoryPath)
+// console.log(__dirname) // path of the directory containing the current file
+// console.log(__filename) // path of the current file
+// console.log(publicDirectoryPath)
 
 const app = express() // calling the express function to build an express object
 const port = process.env.PORT || 9456
@@ -51,17 +52,22 @@ app.get('/weather', (req, res) => {
             error: 'You must provide an address'
         })
     }
-
     geocode(req.query.address, (error, data) => {
         if (!data) {
             return res.send({
                 error
             })
         }
-        res.send({
-            latitude: data.latitude,
-            longitude: data.longitude,
-            location: data.location,
+        forecast(data.latitude, data.longitude, (error, weatherData) => {
+            if (!weatherData) {
+                return res.send({
+                    error
+                })
+            }
+            res.send({
+                location: data.location,
+                weatherData
+            })
         })
     })
 })
